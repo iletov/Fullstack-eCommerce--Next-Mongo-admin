@@ -21,7 +21,20 @@ label {
 }
 
 .btn-primary {
-    @apply bg-blue-900 text-white px-4 py-1 rounded-md;
+    @apply bg-blue-900 text-white px-4 py-1 rounded-md mr-1;
+}
+
+.btn-red {
+    @apply bg-red-800 text-white;
+}
+
+.btn-default {
+    @apply bg-gray-400 text-white; 
+}
+
+.btn-red, 
+.btn-default {
+    @apply px-4 py-1 rounded-md;
 }
 
 table.basic {
@@ -37,5 +50,7 @@ table.basic tr td {
 }
 
 table.basic a {
-    @apply bg-blue-900 text-white text-sm p-1 rounded-md inline-flex gap-1 py-1 px-2
+    @apply bg-blue-900 text-white
+     text-sm p-1 rounded-md 
+     inline-flex gap-1 py-1 px-2 mr-1;
 }
