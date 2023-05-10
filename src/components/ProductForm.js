@@ -1,6 +1,8 @@
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import React, {useState} from 'react'
+import Spinner from './Spinner';
+import { ReactSortable } from 'react-sortablejs';
 
 
 export default function ProductForm({ _id, title:existingTitle, description:existingDescription, price:existingPrice, images:existingImages }) {
@@ -9,6 +11,8 @@ export default function ProductForm({ _id, title:existingTitle, description:exis
   const [description, setDescription] = useState(existingDescription || '');
   const [price, setPrice] = useState( existingPrice || '');
   const [goToProducts, setGoToProducts] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
+
   const router = useRouter();
 
   const saveProduct = async (e) => {
@@ -35,6 +39,8 @@ export default function ProductForm({ _id, title:existingTitle, description:exis
     // console.log(e)
     const files = e.target?.files;
     if(files?.length > 0) {
+      setIsUploading(true);
+
       const data = new FormData();
 
       for (const file of files) {
@@ -45,8 +51,12 @@ export default function ProductForm({ _id, title:existingTitle, description:exis
       setImages((oldImages) => {
         return [...oldImages, ...res.data.links]; // All links + new links
       });
+      setIsUploading(true);
     }
   }
+
+  
+
   return (
       <form onSubmit={saveProduct}>
       
@@ -56,12 +66,19 @@ export default function ProductForm({ _id, title:existingTitle, description:exis
         <label>
           Photos
         </label>
-        <div className='mb-2 flex flex-wrap gap-2'>
-          {images?.length > 0 && images.map((link) => (
-            <div key={link} className='h-24 '>
-              <img src={link} alt='' className='rounded-lg' />
+        <div className='mb-2 flex flex-wrap gap-1'>
+          
+            {!!images?.length && images.map((link) => (
+              <div key={link} className='h-24 '>
+                <img src={link} alt='' className='rounded-lg' />
+              </div>
+            ))}
+
+          {isUploading && (
+            <div className='h-24 flex items-center'>
+              <Spinner />
             </div>
-          ))}
+          )}
 
           <label className='w-24 h-24 flex flex-col justify-center text-sm gap-1 text-gray-400 items-center rounded-lg bg-gray-200 cursor-pointer'>
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
