@@ -1,23 +1,31 @@
 import axios from 'axios';
 import { useRouter } from 'next/router';
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import Spinner from './Spinner';
-import { ReactSortable } from 'react-sortablejs';
+// import { ReactSortable } from 'react-sortablejs';
 
 
-export default function ProductForm({ _id, title:existingTitle, description:existingDescription, price:existingPrice, images:existingImages }) {
+export default function ProductForm({ _id, title:existingTitle, description:existingDescription, price:existingPrice, images:existingImages, category:assignedCategory, }) {
   const [title, setTitle] = useState(existingTitle || '');
   const [images, setImages] = useState(existingImages || []);
   const [description, setDescription] = useState(existingDescription || '');
   const [price, setPrice] = useState( existingPrice || '');
   const [goToProducts, setGoToProducts] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
+  const [categories, setCategories] = useState([]);
+  const [category, setCategory] = useState(assignedCategory || '');
 
   const router = useRouter();
 
+  useEffect(() => {
+    axios.get('/api/categories').then(result => {
+      setCategories(result.data);
+    })
+  }, []);
+
   const saveProduct = async (e) => {
     e.preventDefault();
-    const data = {title, description, price, images};
+    const data = {title, description, price, images, category};
 
     if(_id) {
       // UPDATE Product
@@ -62,6 +70,17 @@ export default function ProductForm({ _id, title:existingTitle, description:exis
       
         <label>Product Name</label>
         <input type='text' placeholder='Product Name' value={title} onChange={(e) => setTitle(e.target.value)}/>
+
+        <label>Category</label>
+        <select
+          value={category} 
+          onChange={(e) => setCategory(e.target.value)}
+        >
+          <option value=''>Uncategorized</option>
+          {categories.length > 0 && categories.map((item) => (
+            <option value={item._id}>{item.name}</option>
+          ))}
+        </select>
 
         <label>
           Photos
