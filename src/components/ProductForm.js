@@ -63,6 +63,20 @@ export default function ProductForm({ _id, title:existingTitle, description:exis
     }
   }
 
+  const propertiesToFill = [];
+  if (categories.length > 0 && category) {
+    let selectedCategoryInfo = categories.find(({_id}) => _id === category)
+    
+    propertiesToFill.push(...selectedCategoryInfo.properties);
+
+    while(selectedCategoryInfo?.parent?._id) {
+      const parentCat = categories.find(({_id}) => _id === selectedCategoryInfo?.parent?._id);
+
+      propertiesToFill.push(...parentCat.properties);
+      selectedCategoryInfo = parentCat;
+    }
+     
+  }
   
 
   return (
@@ -81,6 +95,14 @@ export default function ProductForm({ _id, title:existingTitle, description:exis
             <option value={item._id}>{item.name}</option>
           ))}
         </select>
+
+        {/* ----------- make the child category inherit the parent category properties------- */}
+          {propertiesToFill.length > 0 && propertiesToFill.map((item) => (
+            <div>
+              {item.name}
+            </div>
+          ))}
+        {/* --------------------------------- */}
 
         <label>
           Photos
