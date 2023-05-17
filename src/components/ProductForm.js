@@ -5,7 +5,15 @@ import Spinner from './Spinner';
 // import { ReactSortable } from 'react-sortablejs';
 
 
-export default function ProductForm({ _id, title:existingTitle, description:existingDescription, price:existingPrice, images:existingImages, category:assignedCategory, }) {
+export default function ProductForm({ 
+  _id, 
+  title:existingTitle, 
+  description:existingDescription, 
+  price:existingPrice, 
+  images:existingImages, 
+  category:assignedCategory, 
+  properties:assignedProperties,
+}) {
   const [title, setTitle] = useState(existingTitle || '');
   const [images, setImages] = useState(existingImages || []);
   const [description, setDescription] = useState(existingDescription || '');
@@ -14,6 +22,7 @@ export default function ProductForm({ _id, title:existingTitle, description:exis
   const [isUploading, setIsUploading] = useState(false);
   const [categories, setCategories] = useState([]);
   const [category, setCategory] = useState(assignedCategory || '');
+  const [productProperties, setProductProperties] = useState(assignedProperties || {});
 
   const router = useRouter();
 
@@ -25,7 +34,7 @@ export default function ProductForm({ _id, title:existingTitle, description:exis
 
   const saveProduct = async (e) => {
     e.preventDefault();
-    const data = {title, description, price, images, category};
+    const data = {title, description, price, images, category, properties:productProperties};
 
     if(_id) {
       // UPDATE Product
@@ -77,6 +86,14 @@ export default function ProductForm({ _id, title:existingTitle, description:exis
     }
      
   }
+
+  const handleProductProp = (propName, value) => {
+    setProductProperties((prev) => {
+      const newProductProps = {...prev};
+      newProductProps[propName] = value;
+      return newProductProps;
+    })
+  }
   
 
   return (
@@ -99,7 +116,18 @@ export default function ProductForm({ _id, title:existingTitle, description:exis
         {/* ----------- make the child category inherit the parent category properties------- */}
           {propertiesToFill.length > 0 && propertiesToFill.map((item) => (
             <div>
-              {item.name}
+              <div>
+                {item.name}
+              </div>
+              <select 
+                value={productProperties[item.name]}
+                onChange={(e) => handleProductProp(item.name, e.target.value)}>
+                {item.values.map((valueItem) => (
+                  <option value={valueItem}>
+                    {valueItem}
+                  </option>
+                ))}
+              </select>
             </div>
           ))}
         {/* --------------------------------- */}
