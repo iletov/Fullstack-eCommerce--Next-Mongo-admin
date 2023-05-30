@@ -60,13 +60,11 @@ table.basic thead tr th {
     @apply text-sm text-gray-600 uppercase border-b border-gray-200 px-4 py-2;
 }
 
+
 table.basic tr td {
     @apply  px-4 py-1;
 }
 
-/* table.basic tr th {
-    @apply  px-4 py-1;
-} */
 
 table.basic a {
     @apply  px-3 rounded-sm inline-flex items-center gap-1 mx-1
