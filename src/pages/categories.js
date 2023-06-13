@@ -4,6 +4,7 @@ import Layout from '@/components/Layout'
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
+import Spinner from '@/components/Spinner';
 
 export default function categories() {
     const [editedCategory, setEditedCategory] = useState(null);
@@ -11,14 +12,18 @@ export default function categories() {
     const [categories, setCategories] = useState([]);
     const [properties, setProperties] = useState([]);
     const [parentCategory, setParentCategory] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
+        setIsLoading(true);
+
         fetchCategories();
     }, []);
 
     const fetchCategories = () => {
         axios.get('/api/categories').then(result => {
            setCategories(result.data);
+           setIsLoading(false);
         });
     }
    
@@ -199,6 +204,7 @@ export default function categories() {
             </div>
         </form>
     {/* -------------------------------- */}
+    
 
     {!editedCategory && (
 
@@ -211,6 +217,14 @@ export default function categories() {
             </tr>
         </thead>
         <tbody>
+
+            {isLoading && (
+              <tr>
+                <td colSpan={3}>
+                  <Spinner/>
+                </td>
+              </tr>
+            )}
             {categories.length > 0 ? categories.map((category) => (
                 <tr>
                     <td>{category.name}</td>

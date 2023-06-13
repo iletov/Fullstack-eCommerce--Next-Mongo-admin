@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import Layout from '@/components/Layout';
 import axios from 'axios';
+import Spinner from '@/components/Spinner';
 
 const OrdersPage = () => {
   const [orders, setOrders] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
   useEffect(() => {
+    setIsLoading(true);
     axios.get('/api/orders').then(response => {
       setOrders(response.data);
+      setIsLoading(false);
     })
   },[])
 
@@ -23,6 +28,13 @@ const OrdersPage = () => {
           </tr>
         </thead>
         <tbody>
+          {isLoading && (
+            <tr>
+              <td colSpan={4}>
+                <Spinner/>
+              </td>
+            </tr>
+          )}
           {orders.length > 0 && orders.map((order) => (
             <tr className='text-center'>
               <td> 
