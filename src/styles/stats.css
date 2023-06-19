@@ -1,0 +1,11 @@
+.tile {
+  @apply bg-white shadow-md p-2 text-center text-primary;
+}
+
+.tile-header {
+  @apply uppercase text-gray-500 font-bold text-xs m-0;
+}
+
+.tile-number {
+  @apply text-3xl text-center my-1
+}

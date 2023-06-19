@@ -32,6 +32,7 @@ const SettingsPage = () => {
   }
 
   const saveSettings = async () => {
+    setIsLoading(true);
     await axios.put('/api/settings', {
       name: 'featuredProductId',
       value: featuredProductId,
@@ -40,6 +41,7 @@ const SettingsPage = () => {
       name: 'shippingFee',
       value: shippingFee,
     });
+    setIsLoading(false);
     const MySwal = withReactContent(Swal)
     MySwal.fire({
       title: 'Saved!',
