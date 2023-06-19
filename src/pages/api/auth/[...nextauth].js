@@ -4,13 +4,10 @@ import { MongoDBAdapter } from '@next-auth/mongodb-adapter'
 import NextAuth, { getServerSession } from 'next-auth'
 import GoogleProvider from 'next-auth/providers/google'
 
-const adminEmails = ['letov88@gmail.com', 'ivan.o.letov@gmail.com'];
+// const adminEmails = ['letov88@gmail.com', 'ivan.o.letov@gmail.com'];
 
 const isAdminEmail = async (email) => {
-  if (await Admin.findOne({email})) {
-    return true;
-  } 
-  return false;
+  return !! (await Admin.findOne({email})); 
 }
 
 export const authOptions = {
@@ -25,7 +22,7 @@ export const authOptions = {
   callbacks: {
     session: async ({session, token, user}) => {
       // console.log({session, token, user})
-      if (await isAdminEmail(session?.user?.email)) {
+      if (isAdminEmail(session?.user?.email)) {
         return session;
       } else {
         return false;
@@ -38,7 +35,7 @@ export default NextAuth(authOptions);
 
 export async function isAdminRequest(req, res) {
   const session = await getServerSession(req, res, authOptions);
-  if (!(await isAdminEmail(session?.user?.email))) {
+  if (!(isAdminEmail(session?.user?.email))) {
     res.status(401);
     res.end();
     // throw 'Not an Admin';
