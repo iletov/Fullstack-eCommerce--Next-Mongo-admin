@@ -60,7 +60,7 @@ const SettingsPage = () => {
           <label>Featured Product</label>
           <select value={featuredProductId} onChange={e => setFeaturedProductId(e.target.value)}>
             {products.length > 0 && products.map((product) => (
-              <option value={product._id}>{product.title}</option>
+              <option key={product._id} value={product._id}>{product.title}</option>
             ))}
           </select>
           

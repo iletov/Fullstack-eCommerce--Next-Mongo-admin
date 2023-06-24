@@ -102,7 +102,7 @@ const AdminsPage = () => {
             )}
             
               {admins.length > 0 && admins.map((user) => (
-                <tr>
+                <tr key={user._id}>
                   <td>{user.email}</td>
                   <td>
                     <button className="btn-red" onClick={() => deleteAdmin(user._id, user.email)}>

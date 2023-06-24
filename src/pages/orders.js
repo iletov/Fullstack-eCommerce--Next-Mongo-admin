@@ -36,7 +36,7 @@ const OrdersPage = () => {
             </tr>
           )}
           {orders.length > 0 && orders.map((order) => (
-            <tr className='text-center'>
+            <tr key={order._id} className='text-center'>
               <td> 
                 {(new Date(order.createdAt)).toLocaleString()}
               </td>
