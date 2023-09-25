@@ -58,10 +58,18 @@ const SettingsPage = () => {
       {!isLoading && (
         <>
           <label>Featured Product</label>
-          <select value={featuredProductId} onChange={e => setFeaturedProductId(e.target.value)}>
-            {products.length > 0 && products.map((product) => (
-              <option key={product._id} value={product._id}>{product.title}</option>
-            ))}
+          <select 
+            value={featuredProductId} 
+            onChange={e => setFeaturedProductId(e.target.value)}
+            >
+              {products.length > 0 && products.map((product) => (
+                <option 
+                  key={product._id} 
+                  value={product._id}
+                  >
+                    {product.title}
+                  </option>
+              ))}
           </select>
           
           <label>Shipping price</label>

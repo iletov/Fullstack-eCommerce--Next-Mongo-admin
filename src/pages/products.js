@@ -4,7 +4,7 @@ import axios from 'axios'
 import Link from 'next/link'
 import React, {useEffect, useState} from 'react'
 
-export default function products() {
+export default function Products() {
   //grab products from mongoDB
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -36,8 +36,8 @@ export default function products() {
               <Spinner /> 
           )}
          
-            {products.map((product) => (
-              <tr>
+            {products.map((product, index) => (
+              <tr key={index}>
                 <td>{product.title}</td>
                 <td>
                   <Link href={'/products/edit/'+product._id} className='btn-default'>

@@ -1,5 +1,6 @@
 import React from 'react'
 import { useSession } from "next-auth/react";
+import Image from 'next/image';
 
 const Dashboard = () => {
   const {data: session} = useSession();
@@ -16,7 +17,7 @@ const Dashboard = () => {
         </h2>
         <div className='hidden sm:block'>
           <div className="flex gap-1 rounded-lg items-center">
-            <img src={session?.user?.image} alt='' className="w-12 h-12 overflow-hidden rounded-full" />
+            <Image src={session?.user?.image} alt='' width={48} height={48} className="overflow-hidden rounded-full" />
             <span className="px-2 font-medium">
               {session?.user?.name}<br/>
               {session?.user?.email}

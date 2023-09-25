@@ -25,7 +25,7 @@ export default function Layout({ children }) {
   
   return (
     <div className="bg-bgGray min-h-screen">
-      <div className="block md:hidden flex items-center p-4">        
+      <div className="md:hidden flex items-center p-4">        
         <MenuButton setShowNav={setShowNav}/>
 
         <div className="flex grow justify-center mr-6">

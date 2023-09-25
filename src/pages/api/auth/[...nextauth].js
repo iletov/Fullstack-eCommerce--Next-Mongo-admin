@@ -4,7 +4,7 @@ import { MongoDBAdapter } from '@next-auth/mongodb-adapter'
 import NextAuth, { getServerSession } from 'next-auth'
 import GoogleProvider from 'next-auth/providers/google'
 
-// const adminEmails = ['letov88@gmail.com', 'ivan.o.letov@gmail.com'];
+const adminEmails = ['letov88@gmail.com', 'ivan.o.letov@gmail.com'];
 
 const isAdminEmail = async (email) => {
   return !! (await Admin.findOne({email})); 
